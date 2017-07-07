@@ -28,9 +28,14 @@ or
 ```#include <FTDebouncer.h>``` (depends on location of the class)
 
 * Instantiate an FTDebouncer object
-```FTDebouncer pinDebouncer;```
+```
+FTDebouncer pinDebouncer;
+```
+
 This will initialise the debounce time to 40ms by default, but a different interval can be chosen by passing the time in ms to the constructor as in
-```FTDebouncer pinDebouncer(30);```
+```
+FTDebouncer pinDebouncer(30);
+```
 
 * In your ```setup()``` function initiate each pin you want to debounce with
 ```pinDebouncer.addPin(<pin number>, <rest state>);``` (more detailed examples below).
