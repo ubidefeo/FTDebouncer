@@ -1,16 +1,17 @@
 /*
 * @Author: Ubi de Feo | Future Tailors
-* @Date:   2017-07-05 07:15:42
+* @Date:   2017-07-07 21:40:49
 * @Last Modified by:   ubi
-* @Last Modified time: 2017-07-07 07:43:02
+* @Last Modified time: 2017-07-07 21:41:08
 */
+
 
 #include "FTDebouncer.h"
 /*	CONSTRUCTORS/DESTRUCTOR						*/
 FTDebouncer::FTDebouncer() {
 	//pinsCount = 0;
 	firstDebounceItem = lastDebounceItem = NULL;
-	debounceDelay = 30;
+	debounceDelay = 40;
 }
 FTDebouncer::FTDebouncer(uint16_t _debounceTime) {
 	//pinsCount = 0;
@@ -21,7 +22,8 @@ FTDebouncer::~FTDebouncer() {
 }
 
 
-void FTDebouncer::addPin(uint8_t _pinNr, uint8_t _restState) {
+void FTDebouncer::addPin(
+	uint8_t _pinNr, uint8_t _restState) {
 	//Serial.println("add pin");
 	debounceItem *dbItem = new debounceItem();
 
