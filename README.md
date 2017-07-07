@@ -1,5 +1,5 @@
 # Future Tailors' Debouncer [FTDebouncer]
-### An efficient pin debounce library for Arduino
+### An efficient, low footprint pin debounce library for Arduino
 
 Debouncing in software can be tedious and is often cause of confusion in beginners.
 Advanced users might have an easier life with tracking multiple variables storing milliseconds per each button,
