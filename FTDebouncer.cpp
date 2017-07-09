@@ -9,12 +9,10 @@
 #include "FTDebouncer.h"
 
 /*	CONSTRUCTORS/DESTRUCTOR						*/
-FTDebouncer::FTDebouncer() {		
-	FTDebouncer(40);
+FTDebouncer::FTDebouncer() : _debounceDelay(40) {				
 }
 
-FTDebouncer::FTDebouncer(uint16_t debounceDelay) : _debounceDelay(debounceDelay) {	
-	_firstDebounceItem = _lastDebounceItem = nullptr;	
+FTDebouncer::FTDebouncer(uint16_t debounceDelay) : _debounceDelay(debounceDelay) {		
 }
 
 FTDebouncer::~FTDebouncer() {

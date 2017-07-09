@@ -33,7 +33,7 @@ struct DebounceItem {
 class FTDebouncer {
 
 private:
-	DebounceItem *_firstDebounceItem, *_lastDebounceItem;
+	DebounceItem *_firstDebounceItem = nullptr, *_lastDebounceItem = nullptr;
 	const uint8_t _debounceDelay;
 	uint8_t _debouncedItemsCount = 0;
 	void readPins();
