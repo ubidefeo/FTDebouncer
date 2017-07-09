@@ -12,7 +12,7 @@
 extern void pinActivated(uint8_t);
 extern void pinDeactivated(uint8_t);
 
-struct debounceItem {
+struct DebounceItem {
 	uint8_t pinNumber;
 	uint8_t restState;
 	uint8_t currentState;
@@ -20,11 +20,11 @@ struct debounceItem {
 	uint8_t currentDebouncedState;
 	uint8_t previousDebouncedState;
 	uint32_t lastTimeChecked;
-	debounceItem *nextItem = NULL;
+	DebounceItem *nextItem = NULL;
 };
 class FTDebouncer {
 private:
-	debounceItem *firstDebounceItem, *lastDebounceItem;
+	DebounceItem *firstDebounceItem, *lastDebounceItem;
 	uint8_t debounceDelay;
 	uint8_t debouncedItemsCount;
 	void readPins();

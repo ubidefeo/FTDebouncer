@@ -25,7 +25,7 @@ FTDebouncer::~FTDebouncer() {
 /*	METHODS										*/
 void FTDebouncer::addPin(
 	uint8_t _pinNr, uint8_t _restState) {
-	debounceItem *dbItem = new debounceItem();
+	DebounceItem *dbItem = new DebounceItem();
 
 	dbItem->pinNumber = _pinNr;
 	dbItem->restState = _restState;
@@ -42,7 +42,7 @@ void FTDebouncer::addPin(
 
 }
 void FTDebouncer::addPin(uint8_t _pinNr, uint8_t _restState, uint8_t _pullUpMode) {
-	debounceItem *dbItem = new debounceItem();
+	DebounceItem *dbItem = new DebounceItem();
 
 	dbItem->pinNumber = _pinNr;
 	dbItem->restState = _restState;
@@ -67,7 +67,7 @@ void FTDebouncer::addPin(uint8_t _pinNr, uint8_t _restState, uint8_t _pullUpMode
 
 void FTDebouncer::init() {
 	unsigned long currentMs = millis();
-	debounceItem *dbItem = firstDebounceItem;
+	DebounceItem *dbItem = firstDebounceItem;
 
 	while (1) {
 		dbItem->lastTimeChecked = currentMs;
@@ -79,7 +79,7 @@ void FTDebouncer::init() {
 }
 
 void FTDebouncer::run() {
-	debounceItem *dbItem = firstDebounceItem;
+	DebounceItem *dbItem = firstDebounceItem;
 	while (1) {
 		dbItem->currentState = digitalRead(dbItem->pinNumber);
 		dbItem = dbItem->nextItem;
@@ -91,7 +91,7 @@ void FTDebouncer::run() {
 }
 void FTDebouncer::debouncePins() {
 	unsigned long currentMs = millis();
-	debounceItem *dbItem = firstDebounceItem;
+	DebounceItem *dbItem = firstDebounceItem;
 	while (1) {
 		if (dbItem->currentState != dbItem->previousState) {
 			dbItem->lastTimeChecked = currentMs;
@@ -109,7 +109,7 @@ void FTDebouncer::debouncePins() {
 }
 
 void FTDebouncer::checkStateChange() {
-	debounceItem *dbItem = firstDebounceItem;
+	DebounceItem *dbItem = firstDebounceItem;
 
 	while (1) {
 		if (dbItem->previousDebouncedState != dbItem->currentDebouncedState) {
