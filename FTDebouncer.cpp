@@ -19,9 +19,6 @@ FTDebouncer::~FTDebouncer() {
 }
 
 /*	METHODS										*/
-void FTDebouncer::addPin(uint8_t pinNr, uint8_t restState) {
-	this->addPin(pinNr, restState, PinMode::Input);
-}
 
 void FTDebouncer::addPin(uint8_t pinNr, uint8_t restState, PinMode pullUpMode) {
 	DebounceItem *debounceItem = new DebounceItem();

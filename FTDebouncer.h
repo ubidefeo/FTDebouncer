@@ -44,12 +44,8 @@ public:
 	FTDebouncer();
 	FTDebouncer(uint16_t debounceTime);
 	~FTDebouncer();
-	void run();
-	void addPin(uint8_t pinNr, uint8_t restState);
-	void addPin(uint8_t pinNr, uint8_t restState, PinMode pullUpMode);
+	void run();	
+	void addPin(uint8_t pinNr, uint8_t restState, PinMode pullUpMode = PinMode::Input);
 	void init();
 	uint8_t getPinCount();
 };
-
-
-
