@@ -78,5 +78,5 @@ void pinDeactivated(uint8_t _pinNR){
 }
 ```
 	
-__note__: This class can easily be reworked to function outside of the Arduino framework if you know how to handle time and Data Directin Registers, HAL etc.
+__note__: This class can easily be reworked to function outside of the Arduino framework if you know how to handle time, Data Direction Registers, HAL etc.
 	
