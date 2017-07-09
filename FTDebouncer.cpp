@@ -1,30 +1,30 @@
 /*
 * @Author: Ubi de Feo | Future Tailors
-* @Date:   2017-07-07 21:40:49
+* @Date:   2017-07-09 16:34:07
 * @Last Modified by:   ubi
-* @Last Modified time: 2017-07-07 21:41:08
+* @Last Modified time: 2017-07-09 16:41:17
 */
 
 
 #include "FTDebouncer.h"
 /*	CONSTRUCTORS/DESTRUCTOR						*/
 FTDebouncer::FTDebouncer() {
-	//pinsCount = 0;
+	debouncedItemsCount = 0;
+
 	firstDebounceItem = lastDebounceItem = NULL;
 	debounceDelay = 40;
 }
 FTDebouncer::FTDebouncer(uint16_t _debounceTime) {
-	//pinsCount = 0;
+	debouncedItemsCount = 0;
 	firstDebounceItem = lastDebounceItem = NULL;
 	debounceDelay = _debounceTime;
 }
 FTDebouncer::~FTDebouncer() {
 }
 
-
+/*	METHODS										*/
 void FTDebouncer::addPin(
 	uint8_t _pinNr, uint8_t _restState) {
-	//Serial.println("add pin");
 	debounceItem *dbItem = new debounceItem();
 
 	dbItem->pinNumber = _pinNr;
@@ -35,15 +35,13 @@ void FTDebouncer::addPin(
 	} else {
 		lastDebounceItem->nextItem = dbItem;
 	}
-
 	lastDebounceItem = dbItem;
 
 	pinMode(_pinNr, INPUT);
-
+	debouncedItemsCount++;
 
 }
 void FTDebouncer::addPin(uint8_t _pinNr, uint8_t _restState, uint8_t _pullUpMode) {
-	//Serial.println("add pin");
 	debounceItem *dbItem = new debounceItem();
 
 	dbItem->pinNumber = _pinNr;
@@ -63,6 +61,7 @@ void FTDebouncer::addPin(uint8_t _pinNr, uint8_t _restState, uint8_t _pullUpMode
 		pinMode(_pinNr, _pullUpMode);
 	}
 
+	debouncedItemsCount++;
 
 }
 
@@ -108,6 +107,7 @@ void FTDebouncer::debouncePins() {
 		if (dbItem == NULL) break;
 	}
 }
+
 void FTDebouncer::checkStateChange() {
 	debounceItem *dbItem = firstDebounceItem;
 
@@ -124,4 +124,7 @@ void FTDebouncer::checkStateChange() {
 		dbItem = dbItem->nextItem;
 		if (dbItem == NULL) break;
 	}
+}
+uint8_t FTDebouncer::getPinsCount(){
+	return debouncedItemsCount;
 }

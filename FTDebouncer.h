@@ -1,8 +1,8 @@
 /*
 * @Author: Ubi de Feo | Future Tailors
-* @Date:   2017-07-05 07:15:42
+* @Date:   2017-07-09 16:34:07
 * @Last Modified by:   ubi
-* @Last Modified time: 2017-07-07 21:40:41
+* @Last Modified time: 2017-07-09 16:34:07
 */
 
 /*	Future Tailors' Debouncer Library 											*/
@@ -26,6 +26,7 @@ class FTDebouncer {
 private:
 	debounceItem *firstDebounceItem, *lastDebounceItem;
 	uint8_t debounceDelay;
+	uint8_t debouncedItemsCount;
 	void readPins();
 	void debouncePins();
 	void checkStateChange();
@@ -38,6 +39,7 @@ public:
 	void addPin(uint8_t _pinNr, uint8_t _restState);
 	void addPin(uint8_t _pinNr, uint8_t _restState, uint8_t _pullUpMode);
 	void init();
+	uint8_t getPinsCount();
 };
 
 
