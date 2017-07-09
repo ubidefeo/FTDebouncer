@@ -44,7 +44,7 @@ FTDebouncer pinDebouncer(30);
 ```pinDebouncer.init();```
 
 __example:__
-```
+```c++
 void setup(){}
 	pinDebouncer.addPin(9, LOW); // external pull-down resistor
 	pinDebouncer.addPin(5, HIGH); // external pull-up resistor
@@ -65,7 +65,7 @@ void setup(){}
 
 * Implement the following functions in your basic Arduino sketch (copy/paste these at the end of your code).
 
-```
+```c++
 void pinActivated(uint8_t pinNR){
 	// do something according to the _pinNR that is triggered
 	// for instance:
