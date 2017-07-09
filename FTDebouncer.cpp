@@ -8,16 +8,13 @@
 
 #include "FTDebouncer.h"
 /*	CONSTRUCTORS/DESTRUCTOR						*/
-FTDebouncer::FTDebouncer() {
+FTDebouncer::FTDebouncer() : debounceDelay(40) {
 	debouncedItemsCount = 0;
-
-	firstDebounceItem = lastDebounceItem = nullptr;
-	debounceDelay = 40;
+	firstDebounceItem = lastDebounceItem = nullptr;	
 }
-FTDebouncer::FTDebouncer(uint16_t _debounceTime) {
+FTDebouncer::FTDebouncer(uint16_t _debounceTime) : debounceDelay(_debounceTime) {
 	debouncedItemsCount = 0;
-	firstDebounceItem = lastDebounceItem = nullptr;
-	debounceDelay = _debounceTime;
+	firstDebounceItem = lastDebounceItem = nullptr;	
 }
 FTDebouncer::~FTDebouncer() {
 }
