@@ -40,22 +40,18 @@ void FTDebouncer::addPin(uint8_t pinNr, uint8_t restState, PinMode pullUpMode) {
 }
 
 void FTDebouncer::init() {
-	unsigned long currentMilliseconds = millis();
-	DebounceItem *debounceItem = _firstDebounceItem;
+	unsigned long currentMilliseconds = millis();	
 
-	while (debounceItem != nullptr) {
+	for(DebounceItem * debounceItem = _firstDebounceItem; debounceItem != nullptr; debounceItem = debounceItem->nextItem){
 		debounceItem->lastTimeChecked = currentMilliseconds;
 		debounceItem->currentState = debounceItem->previousState = debounceItem->restState;
-		debounceItem->currentDebouncedState = debounceItem->previousDebouncedState = debounceItem->restState;
-		debounceItem = debounceItem->nextItem;		
+		debounceItem->currentDebouncedState = debounceItem->previousDebouncedState = debounceItem->restState;	    
 	}
 }
 
 void FTDebouncer::run() {
-	DebounceItem *debounceItem = _firstDebounceItem;
-	while (debounceItem != nullptr) {
-		debounceItem->currentState = digitalRead(debounceItem->pinNumber);
-		debounceItem = debounceItem->nextItem;		
+	for(DebounceItem * debounceItem = _firstDebounceItem; debounceItem != nullptr; debounceItem = debounceItem->nextItem){
+		debounceItem->currentState = digitalRead(debounceItem->pinNumber);		
 	}
 
 	this->debouncePins();
@@ -64,8 +60,8 @@ void FTDebouncer::run() {
 
 void FTDebouncer::debouncePins() {
 	unsigned long currentMilliseconds = millis();
-	DebounceItem *debounceItem = _firstDebounceItem;
-	while (debounceItem != nullptr) {
+
+	for(DebounceItem * debounceItem = _firstDebounceItem; debounceItem != nullptr; debounceItem = debounceItem->nextItem){
 		if (debounceItem->currentState != debounceItem->previousState) {
 			debounceItem->lastTimeChecked = currentMilliseconds;
 		}
@@ -75,15 +71,13 @@ void FTDebouncer::debouncePins() {
 				debounceItem->currentDebouncedState = debounceItem->currentState;
 			}
 		}
-		debounceItem->previousState = debounceItem->currentState;
-		debounceItem = debounceItem->nextItem;		
+		debounceItem->previousState = debounceItem->currentState;			
 	}
 }
 
 void FTDebouncer::checkStateChange() {
-	DebounceItem *debounceItem = _firstDebounceItem;
 
-	while (debounceItem != nullptr) {
+	for(DebounceItem * debounceItem = _firstDebounceItem; debounceItem != nullptr; debounceItem = debounceItem->nextItem){
 		if (debounceItem->previousDebouncedState != debounceItem->currentDebouncedState) {
 			if (debounceItem->currentDebouncedState == !debounceItem->restState) {
 				pinActivated(debounceItem->pinNumber);
@@ -92,8 +86,7 @@ void FTDebouncer::checkStateChange() {
 				pinDeactivated(debounceItem->pinNumber);
 			}
 		}
-		debounceItem->previousDebouncedState = debounceItem->currentDebouncedState;
-		debounceItem = debounceItem->nextItem;		
+		debounceItem->previousDebouncedState = debounceItem->currentDebouncedState;		
 	}
 }
 
