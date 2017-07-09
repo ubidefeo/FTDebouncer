@@ -1,5 +1,7 @@
 #include "FTDebouncer.h"
+
 FTDebouncer pinDebouncer(30);
+
 void setup(){
 	Serial.begin(57600);
 	pinDebouncer.addPin(2, HIGH, PinMode::InputPullup);
@@ -32,11 +34,11 @@ void loop(){
 	usElapsed = micros() - us;
 	Serial.println(usElapsed);
 }
-void pinActivated(uint8_t _pinNr){
+void pinActivated(uint8_t pinNr){
 	Serial.print("Pin activated: ");
-	Serial.println(_pinNr);
+	Serial.println(pinNr);
 }
-void pinDeactivated(uint8_t _pinNr){
+void pinDeactivated(uint8_t pinNr){
 	Serial.print("Pin deactivated: ");
-	Serial.println(_pinNr);
+	Serial.println(pinNr);
 }
