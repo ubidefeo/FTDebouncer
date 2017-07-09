@@ -30,20 +30,20 @@ struct DebounceItem {
 };
 class FTDebouncer {
 private:
-	DebounceItem *firstDebounceItem, *lastDebounceItem;
-	const uint8_t debounceDelay;
-	uint8_t debouncedItemsCount;
+	DebounceItem *_firstDebounceItem, *_lastDebounceItem;
+	const uint8_t _debounceDelay;
+	uint8_t _debouncedItemsCount;
 	void readPins();
 	void debouncePins();
 	void checkStateChange();
 
 public:
 	FTDebouncer();
-	FTDebouncer(uint16_t _debounceTime);
+	FTDebouncer(uint16_t debounceTime);
 	~FTDebouncer();
 	void run();
-	void addPin(uint8_t _pinNr, uint8_t _restState);
-	void addPin(uint8_t _pinNr, uint8_t _restState, PinMode _pullUpMode);
+	void addPin(uint8_t pinNr, uint8_t restState);
+	void addPin(uint8_t pinNr, uint8_t restState, PinMode pullUpMode);
 	void init();
 	uint8_t getPinCount();
 };
