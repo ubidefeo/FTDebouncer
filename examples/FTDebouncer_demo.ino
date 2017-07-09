@@ -22,7 +22,7 @@ void setup(){
 	pinDebouncer.addPin(19, LOW);
 	pinDebouncer.init();
 	Serial.println(sizeof(pinDebouncer));
-	Serial.println(pinDebouncer.getPinsCount());
+	Serial.println(pinDebouncer.getPinCount());
 	delay(5000);
 }
 void loop(){

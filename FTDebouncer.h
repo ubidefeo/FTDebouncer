@@ -39,7 +39,7 @@ public:
 	void addPin(uint8_t _pinNr, uint8_t _restState);
 	void addPin(uint8_t _pinNr, uint8_t _restState, uint8_t _pullUpMode);
 	void init();
-	uint8_t getPinsCount();
+	uint8_t getPinCount();
 };
 
 

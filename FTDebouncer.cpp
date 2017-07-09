@@ -99,6 +99,6 @@ void FTDebouncer::checkStateChange() {
 		dbItem = dbItem->nextItem;		
 	}
 }
-uint8_t FTDebouncer::getPinsCount(){
+uint8_t FTDebouncer::getPinCount(){
 	return debouncedItemsCount;
 }
