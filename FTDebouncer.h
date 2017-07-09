@@ -32,7 +32,7 @@ class FTDebouncer {
 private:
 	DebounceItem *_firstDebounceItem, *_lastDebounceItem;
 	const uint8_t _debounceDelay;
-	uint8_t _debouncedItemsCount;
+	uint8_t _debouncedItemsCount = 0;
 	void readPins();
 	void debouncePins();
 	void checkStateChange();
