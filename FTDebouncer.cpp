@@ -7,13 +7,16 @@
 
 
 #include "FTDebouncer.h"
+
 /*	CONSTRUCTORS/DESTRUCTOR						*/
 FTDebouncer::FTDebouncer() {		
 	FTDebouncer(40);
 }
+
 FTDebouncer::FTDebouncer(uint16_t debounceDelay) : _debounceDelay(debounceDelay) {	
 	_firstDebounceItem = _lastDebounceItem = nullptr;	
 }
+
 FTDebouncer::~FTDebouncer() {
 }
 
@@ -21,6 +24,7 @@ FTDebouncer::~FTDebouncer() {
 void FTDebouncer::addPin(uint8_t pinNr, uint8_t restState) {
 	this->addPin(pinNr, restState, PinMode::Input);
 }
+
 void FTDebouncer::addPin(uint8_t pinNr, uint8_t restState, PinMode pullUpMode) {
 	DebounceItem *debounceItem = new DebounceItem();
 
@@ -38,7 +42,6 @@ void FTDebouncer::addPin(uint8_t pinNr, uint8_t restState, PinMode pullUpMode) {
 	pinMode(pinNr, static_cast<uint8_t>(pullUpMode));
 
 	++_debouncedItemsCount;
-
 }
 
 void FTDebouncer::init() {
@@ -63,6 +66,7 @@ void FTDebouncer::run() {
 	this->debouncePins();
 	this->checkStateChange();
 }
+
 void FTDebouncer::debouncePins() {
 	unsigned long currentMilliseconds = millis();
 	DebounceItem *debounceItem = _firstDebounceItem;
@@ -97,6 +101,7 @@ void FTDebouncer::checkStateChange() {
 		debounceItem = debounceItem->nextItem;		
 	}
 }
+
 uint8_t FTDebouncer::getPinCount(){
 	return _debouncedItemsCount;
 }

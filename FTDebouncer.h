@@ -9,6 +9,7 @@
 /*	No more manually tracking milliseconds and writing spaghetti monsters		*/
 
 #include "Arduino.h"
+
 extern void pinActivated(uint8_t);
 extern void pinDeactivated(uint8_t);
 
@@ -28,7 +29,9 @@ struct DebounceItem {
 	uint32_t lastTimeChecked;
 	DebounceItem *nextItem = nullptr;
 };
+
 class FTDebouncer {
+
 private:
 	DebounceItem *_firstDebounceItem, *_lastDebounceItem;
 	const uint8_t _debounceDelay;
