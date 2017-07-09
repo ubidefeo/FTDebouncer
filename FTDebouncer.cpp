@@ -78,12 +78,12 @@ void FTDebouncer::debouncePins() {
 void FTDebouncer::checkStateChange() {
 
 	for(DebounceItem * debounceItem = _firstDebounceItem; debounceItem != nullptr; debounceItem = debounceItem->nextItem){
-		if (debounceItem->previousDebouncedState != debounceItem->currentDebouncedState) {
-			if (debounceItem->currentDebouncedState == !debounceItem->restState) {
-				pinActivated(debounceItem->pinNumber);
-			}
+		if (debounceItem->previousDebouncedState != debounceItem->currentDebouncedState) {			
+
 			if (debounceItem->currentDebouncedState == debounceItem->restState) {
 				pinDeactivated(debounceItem->pinNumber);
+			} else {
+				pinActivated(debounceItem->pinNumber);				
 			}
 		}
 		debounceItem->previousDebouncedState = debounceItem->currentDebouncedState;		
