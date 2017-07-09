@@ -21,9 +21,9 @@ FTDebouncer::~FTDebouncer() {
 
 /*	METHODS										*/
 void FTDebouncer::addPin(uint8_t _pinNr, uint8_t _restState) {
-	this->addPin(_pinNr, _restState, INPUT);
+	this->addPin(_pinNr, _restState, PinMode::Input);
 }
-void FTDebouncer::addPin(uint8_t _pinNr, uint8_t _restState, uint8_t _pullUpMode) {
+void FTDebouncer::addPin(uint8_t _pinNr, uint8_t _restState, PinMode _pullUpMode) {
 	DebounceItem *dbItem = new DebounceItem();
 
 	dbItem->pinNumber = _pinNr;
@@ -37,7 +37,7 @@ void FTDebouncer::addPin(uint8_t _pinNr, uint8_t _restState, uint8_t _pullUpMode
 
 	lastDebounceItem = dbItem;
 	
-	pinMode(_pinNr, _pullUpMode);
+	pinMode(_pinNr, static_cast<uint8_t>(_pullUpMode));
 
 	debouncedItemsCount++;
 

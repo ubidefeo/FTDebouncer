@@ -12,6 +12,12 @@
 extern void pinActivated(uint8_t);
 extern void pinDeactivated(uint8_t);
 
+enum class PinMode : uint8_t {
+	Output = OUTPUT,
+	Input = INPUT,
+	InputPullup = INPUT_PULLUP
+};
+
 struct DebounceItem {
 	uint8_t pinNumber;
 	uint8_t restState;
@@ -37,7 +43,7 @@ public:
 	~FTDebouncer();
 	void run();
 	void addPin(uint8_t _pinNr, uint8_t _restState);
-	void addPin(uint8_t _pinNr, uint8_t _restState, uint8_t _pullUpMode);
+	void addPin(uint8_t _pinNr, uint8_t _restState, PinMode _pullUpMode);
 	void init();
 	uint8_t getPinCount();
 };
