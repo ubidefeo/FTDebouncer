@@ -11,12 +11,12 @@
 FTDebouncer::FTDebouncer() {
 	debouncedItemsCount = 0;
 
-	firstDebounceItem = lastDebounceItem = NULL;
+	firstDebounceItem = lastDebounceItem = nullptr;
 	debounceDelay = 40;
 }
 FTDebouncer::FTDebouncer(uint16_t _debounceTime) {
 	debouncedItemsCount = 0;
-	firstDebounceItem = lastDebounceItem = NULL;
+	firstDebounceItem = lastDebounceItem = nullptr;
 	debounceDelay = _debounceTime;
 }
 FTDebouncer::~FTDebouncer() {
@@ -30,7 +30,7 @@ void FTDebouncer::addPin(
 	dbItem->pinNumber = _pinNr;
 	dbItem->restState = _restState;
 
-	if (firstDebounceItem == NULL) {
+	if (firstDebounceItem == nullptr) {
 		firstDebounceItem = dbItem;
 	} else {
 		lastDebounceItem->nextItem = dbItem;
@@ -47,7 +47,7 @@ void FTDebouncer::addPin(uint8_t _pinNr, uint8_t _restState, uint8_t _pullUpMode
 	dbItem->pinNumber = _pinNr;
 	dbItem->restState = _restState;
 
-	if (firstDebounceItem == NULL) {
+	if (firstDebounceItem == nullptr) {
 		firstDebounceItem = dbItem;
 	} else {
 		lastDebounceItem->nextItem = dbItem;
@@ -74,7 +74,7 @@ void FTDebouncer::init() {
 		dbItem->currentState = dbItem->previousState = dbItem->restState;
 		dbItem->currentDebouncedState = dbItem->previousDebouncedState = dbItem->restState;
 		dbItem = dbItem->nextItem;
-		if (dbItem == NULL) break;
+		if (dbItem == nullptr) break;
 	}
 }
 
@@ -83,7 +83,7 @@ void FTDebouncer::run() {
 	while (1) {
 		dbItem->currentState = digitalRead(dbItem->pinNumber);
 		dbItem = dbItem->nextItem;
-		if (dbItem == NULL) break;
+		if (dbItem == nullptr) break;
 	}
 
 	debouncePins();
@@ -104,7 +104,7 @@ void FTDebouncer::debouncePins() {
 		}
 		dbItem->previousState = dbItem->currentState;
 		dbItem = dbItem->nextItem;
-		if (dbItem == NULL) break;
+		if (dbItem == nullptr) break;
 	}
 }
 
@@ -122,7 +122,7 @@ void FTDebouncer::checkStateChange() {
 		}
 		dbItem->previousDebouncedState = dbItem->currentDebouncedState;
 		dbItem = dbItem->nextItem;
-		if (dbItem == NULL) break;
+		if (dbItem == nullptr) break;
 	}
 }
 uint8_t FTDebouncer::getPinsCount(){

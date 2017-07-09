@@ -20,7 +20,7 @@ struct DebounceItem {
 	uint8_t currentDebouncedState;
 	uint8_t previousDebouncedState;
 	uint32_t lastTimeChecked;
-	DebounceItem *nextItem = NULL;
+	DebounceItem *nextItem = nullptr;
 };
 class FTDebouncer {
 private:
