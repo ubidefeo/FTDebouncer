@@ -14,9 +14,14 @@ extern void pinActivated(uint8_t);
 extern void pinDeactivated(uint8_t);
 
 enum class PinMode : uint8_t {
-	Output = OUTPUT,
+	#ifdef INPUT_PULLUP
+	InputPullup = INPUT_PULLUP,
+	#endif
+	#ifdef INPUT_PULLDOWN
+	InputPullDown = INPUT_PULLDOWN,
+	#endif
 	Input = INPUT,
-	InputPullup = INPUT_PULLUP
+	Output = OUTPUT,
 };
 
 struct DebounceItem {
