@@ -62,8 +62,8 @@ void FTDebouncer::run() {
 		debounceItem = debounceItem->nextItem;		
 	}
 
-	debouncePins();
-	checkStateChange();
+	this->debouncePins();
+	this->checkStateChange();
 }
 void FTDebouncer::debouncePins() {
 	unsigned long currentMilliseconds = millis();
