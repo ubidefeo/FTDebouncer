@@ -37,7 +37,7 @@ void FTDebouncer::addPin(uint8_t pinNr, uint8_t restState, PinMode pullUpMode) {
 	
 	pinMode(pinNr, static_cast<uint8_t>(pullUpMode));
 
-	_debouncedItemsCount++;
+	++_debouncedItemsCount;
 
 }
 
