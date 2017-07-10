@@ -22,7 +22,7 @@ Pins to debounce must be pulled-up/down via a 10KOhm resistor to VCC or GND, or 
 The HIGH or LOW state established by these resistors will be the "rest state" of your FTDebouncer's pins.
 	
 	
-* Include library at the beginning of your arduino sketch
+* Include library at the beginning of your Arduino sketch
 ```#include "FTDebouncer.h"```
 or
 ```#include <FTDebouncer.h>``` (depends on location of the class)
@@ -44,37 +44,37 @@ FTDebouncer pinDebouncer(30);
 ```pinDebouncer.init();```
 
 __example:__
-```
+```c++
 void setup(){}
 	pinDebouncer.addPin(9, LOW); // external pull-down resistor
 	pinDebouncer.addPin(5, HIGH); // external pull-up resistor
-	pinDebouncer.addPin(3, LOW); // externall pull-down resistor
-	// although I favour externall pull-up/down resistor, some like to use internal ones when the cpu allows it.
+	pinDebouncer.addPin(3, LOW); // external pull-down resistor
+	// although I favour external pull-up/down resistor, some like to use internal ones when the cpu allows it.
 	// most architectures support INPUT_PULLUP, some implement INPUT_PULLDOWN.
 	// If your compiler throws an "undefined" then it's not supported.
-	pinDebouncer.addPin(7, HIGH, INPUT_PULLUP); // internal pull-up resistor (architecture dependent)
-	pinDebouncer.addPin(8, HIGH, INPUT_PULLDOWN); // internal pull-up resistor (architecture dependent)
+	pinDebouncer.addPin(7, HIGH, PinMode::InputPullup); // internal pull-up resistor (architecture dependent)
+	pinDebouncer.addPin(8, HIGH, PinMode::InputPulldown); // internal pull-down resistor (architecture dependent)
 	pinDebouncer.init();
 }
 ```
 
-* At the beginning of your ```loop()``` function call this the library's ```run()``` method (mind that any ```delay()``` in your ```loop()``` will interfere with proper deboucing).
+* At the beginning of your ```loop()``` function call this the library's ```run()``` method (mind that any ```delay()``` in your ```loop()``` will interfere with proper debouncing).
 ```pinDebouncer.run();```
 
 * This will take care of doing the debouncing for you and simply call the ```pinActivated()``` and ```pinDeactivated()``` functions when the pin state change is steady.
 
 * Implement the following functions in your basic Arduino sketch (copy/paste these at the end of your code).
 
-```
-void pinActivated(uint8_t _pinNR){
+```c++
+void pinActivated(uint8_t pinNR){
 	// do something according to the _pinNR that is triggered
-	// for insance:
-	// Serial.println(_pinNR);
+	// for instance:
+	// Serial.println(pinNR);
 }
-void pinDeactivated(uint8_t _pinNR){
+void pinDeactivated(uint8_t pinNR){
 	// do something according to the _pinNR that is triggered
-	// for insance:
-	// Serial.println(_pinNR);
+	// for instance:
+	// Serial.println(pinNR);
 }
 ```
 	
