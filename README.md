@@ -52,8 +52,8 @@ void setup(){}
 	// although I favour external pull-up/down resistor, some like to use internal ones when the cpu allows it.
 	// most architectures support INPUT_PULLUP, some implement INPUT_PULLDOWN.
 	// If your compiler throws an "undefined" then it's not supported.
-	pinDebouncer.addPin(7, HIGH, PinMode::InputPullup); // internal pull-up resistor (architecture dependent)
-	pinDebouncer.addPin(8, HIGH, PinMode::InputPulldown); // internal pull-down resistor (architecture dependent)
+	pinDebouncer.addPin(7, HIGH, INPUT_PULLUP); // internal pull-up resistor (architecture dependent)
+	pinDebouncer.addPin(8, HIGH, INPUT_PULLDOWN); // internal pull-down resistor (architecture dependent)
 	pinDebouncer.init();
 }
 ```
