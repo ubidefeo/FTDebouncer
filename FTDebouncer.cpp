@@ -2,7 +2,7 @@
 * @Author: Ubi de Feo | Future Tailors
 * @Date:   2017-07-09 16:34:07
 * @Last Modified by:   ubi
-* @Last Modified time: 2018-03-17 08:55:01
+* @Last Modified time: 2018-03-17 09:09:22
 */
 
 
@@ -34,7 +34,7 @@ void FTDebouncer::addPin(uint8_t pinNr, uint8_t restState, int inputMode) {
 
 	_lastDebounceItem = debounceItem;
 	
-	pinMode(pinNr, static_cast<uint8_t>(pullUpMode));
+	pinMode(pinNr, static_cast<uint8_t>(inputMode));
 
 	++_debouncedItemsCount;
 }
