@@ -4,8 +4,10 @@ FTDebouncer pinDebouncer(30);
 
 void setup(){
 	Serial.begin(57600);
-	pinDebouncer.addPin(2, HIGH, PinMode::InputPullup);
-	pinDebouncer.addPin(3, LOW);
+	pinDebouncer.addPin(2, HIGH, INPUT_PULLUP);
+	// NOTE: 
+	// INPUT_PULLDOWN is only supported by some microcontrollers
+	pinDebouncer.addPin(3, LOW, INPUT_PULLDOWN); 
 	pinDebouncer.addPin(4, HIGH);
 	pinDebouncer.addPin(5, LOW);
 	pinDebouncer.addPin(6, HIGH);
