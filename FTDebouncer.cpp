@@ -2,7 +2,7 @@
 * @Author: Ubi de Feo | Future Tailors
 * @Date:   2017-07-09 16:34:07
 * @Last Modified by:   ubi
-* @Last Modified time: 2017-07-09 16:41:17
+* @Last Modified time: 2018-03-17 08:55:01
 */
 
 
@@ -20,7 +20,7 @@ FTDebouncer::~FTDebouncer() {
 
 /*	METHODS										*/
 
-void FTDebouncer::addPin(uint8_t pinNr, uint8_t restState, PinMode pullUpMode) {
+void FTDebouncer::addPin(uint8_t pinNr, uint8_t restState, int inputMode) {
 	DebounceItem *debounceItem = new DebounceItem();
 
 	debounceItem->pinNumber = pinNr;

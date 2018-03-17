@@ -13,6 +13,7 @@
 extern void pinActivated(uint8_t);
 extern void pinDeactivated(uint8_t);
 
+/*	NOT USED in order to be compatible with Arduino's INPUT_PULLUP/INPUT_PULLDOWN int parameters	*/
 enum class PinMode : uint8_t {
 	#ifdef INPUT_PULLUP
 	InputPullup = INPUT_PULLUP,
@@ -50,7 +51,8 @@ public:
 	FTDebouncer(uint16_t debounceTime);
 	~FTDebouncer();
 	void run();	
-	void addPin(uint8_t pinNr, uint8_t restState, PinMode pullUpMode = PinMode::Input);
+	void addPin(uint8_t pinNr, uint8_t restState, int pullUpMode = INPUT);
+
 	void init();
 	uint8_t getPinCount();
 };
