@@ -3,6 +3,7 @@
 * @Date:   2017-07-09 16:34:07
 * @Last Modified by:   ubi
 * @Last Modified time: 2017-07-09 16:34:07
+* @Maintainers: Ubi de Feo, Sebastian Hunkeler
 */
 
 /*	Future Tailors' Debouncer Library 											*/
