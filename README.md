@@ -58,20 +58,20 @@ void setup(){}
 }
 ```
 
-* At the beginning of your ```loop()``` function call this the library's ```run()``` method (mind that any ```delay()``` in your ```loop()``` will interfere with proper debouncing).
-```pinDebouncer.run();```
+* At the beginning of your ```loop()``` function call this the library's ```update()``` method (mind that any ```delay()``` in your ```loop()``` will interfere with proper debouncing and state handling).
+```pinDebouncer.update();```
 
-* This will take care of doing the debouncing for you and simply call the ```pinActivated()``` and ```pinDeactivated()``` functions when the pin state change is steady.
+* This will take care of doing the debouncing for you and simply call the ```onPinActivated()``` and ```onPinDeactivated()``` functions when the pin state change is steady.
 
 * Implement the following functions in your basic Arduino sketch (copy/paste these at the end of your code).
 
 ```c++
-void pinActivated(uint8_t pinNR){
+void onPinActivated(uint8_t pinNR){
 	// do something according to the _pinNR that is triggered
 	// for instance:
 	// Serial.println(pinNR);
 }
-void pinDeactivated(uint8_t pinNR){
+void onPinDeactivated(uint8_t pinNR){
 	// do something according to the _pinNR that is triggered
 	// for instance:
 	// Serial.println(pinNR);

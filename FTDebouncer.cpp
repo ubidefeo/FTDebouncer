@@ -2,8 +2,9 @@
 * @Author: Ubi de Feo | Future Tailors
 * @Date:   2017-07-09 16:34:07
 * @Last Modified by:   ubi
-* @Last Modified time: 2018-03-17 09:09:22
+* @Last Modified time: 2018-11-10 12:34:23
 */
+
 
 
 #include "FTDebouncer.h"
@@ -20,7 +21,7 @@ FTDebouncer::~FTDebouncer() {
 
 /*	METHODS										*/
 
-void FTDebouncer::addPin(uint8_t pinNr, uint8_t restState, int inputMode) {
+void FTDebouncer::addPin(uint8_t pinNr, uint8_t restState, int pullMode) {
 	DebounceItem *debounceItem = new DebounceItem();
 
 	debounceItem->pinNumber = pinNr;
@@ -34,18 +35,30 @@ void FTDebouncer::addPin(uint8_t pinNr, uint8_t restState, int inputMode) {
 
 	_lastDebounceItem = debounceItem;
 	
-	pinMode(pinNr, static_cast<uint8_t>(inputMode));
+	pinMode(pinNr, static_cast<uint8_t>(pullMode));
 
 	++_debouncedItemsCount;
 }
-
+void FTDebouncer::setPinEnabled(uint8_t pinNr, bool enabled){
+	for(DebounceItem * debounceItem = _firstDebounceItem; debounceItem != nullptr; debounceItem = debounceItem->nextItem){
+		if(debounceItem->pinNumber == pinNr){
+			if(enabled) pinMode(debounceItem->pinNumber, debounceItem->pullMode);
+			debounceItem->enabled = enabled;
+			return;
+		}
+	}
+}
+void FTDebouncer::begin(){
+	this->init();
+}
 void FTDebouncer::init() {
 	unsigned long currentMilliseconds = millis();	
 
 	for(DebounceItem * debounceItem = _firstDebounceItem; debounceItem != nullptr; debounceItem = debounceItem->nextItem){
 		debounceItem->lastTimeChecked = currentMilliseconds;
 		debounceItem->currentState = debounceItem->previousState = debounceItem->restState;
-		debounceItem->currentDebouncedState = debounceItem->previousDebouncedState = debounceItem->restState;	    
+		debounceItem->currentDebouncedState = debounceItem->previousDebouncedState = debounceItem->restState;
+		debounceItem->enabled = true;
 	}
 }
 
@@ -57,7 +70,9 @@ void FTDebouncer::run() {
 	this->debouncePins();
 	this->checkStateChange();
 }
-
+void FTDebouncer::update(){
+	this->run();
+}
 void FTDebouncer::debouncePins() {
 	unsigned long currentMilliseconds = millis();
 
@@ -78,12 +93,13 @@ void FTDebouncer::debouncePins() {
 void FTDebouncer::checkStateChange() {
 
 	for(DebounceItem * debounceItem = _firstDebounceItem; debounceItem != nullptr; debounceItem = debounceItem->nextItem){
+		if(!debounceItem->enabled) continue;
 		if (debounceItem->previousDebouncedState != debounceItem->currentDebouncedState) {			
 
 			if (debounceItem->currentDebouncedState == debounceItem->restState) {
-				pinDeactivated(debounceItem->pinNumber);
+				onPinDeactivated(debounceItem->pinNumber);
 			} else {
-				pinActivated(debounceItem->pinNumber);				
+				onPinActivated(debounceItem->pinNumber);				
 			}
 		}
 		debounceItem->previousDebouncedState = debounceItem->currentDebouncedState;		

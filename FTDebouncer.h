@@ -3,6 +3,7 @@
 * @Date:   2017-07-09 16:34:07
 * @Last Modified by:   ubi
 * @Last Modified time: 2017-07-09 16:34:07
+* @Maintainers: Ubi de Feo, Sebastian Hunkeler
 */
 
 /*	Future Tailors' Debouncer Library 											*/
@@ -10,20 +11,8 @@
 
 #include "Arduino.h"
 
-extern void pinActivated(uint8_t);
-extern void pinDeactivated(uint8_t);
-
-/*	NOT USED in order to be compatible with Arduino's INPUT_PULLUP/INPUT_PULLDOWN int parameters	*/
-enum class PinMode : uint8_t {
-	#ifdef INPUT_PULLUP
-	InputPullup = INPUT_PULLUP,
-	#endif
-	#ifdef INPUT_PULLDOWN
-	InputPullDown = INPUT_PULLDOWN,
-	#endif
-	Input = INPUT,
-	Output = OUTPUT,
-};
+extern void onPinActivated(uint8_t);
+extern void onPinDeactivated(uint8_t);
 
 struct DebounceItem {
 	uint8_t pinNumber;
@@ -33,6 +22,8 @@ struct DebounceItem {
 	uint8_t currentDebouncedState;
 	uint8_t previousDebouncedState;
 	uint32_t lastTimeChecked;
+	bool enabled;
+	uint8_t pullMode;
 	DebounceItem *nextItem = nullptr;
 };
 
@@ -51,8 +42,10 @@ public:
 	FTDebouncer(uint16_t debounceTime);
 	~FTDebouncer();
 	void run();	
-	void addPin(uint8_t pinNr, uint8_t restState, int pullUpMode = INPUT);
-
+	void update();
+	void addPin(uint8_t pinNr, uint8_t restState, int pullMode = INPUT);
+	void setPinEnabled(uint8_t pinNr, bool enabled);
 	void init();
+	void begin();
 	uint8_t getPinCount();
 };

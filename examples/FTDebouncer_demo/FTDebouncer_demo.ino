@@ -1,3 +1,7 @@
+#if !defined(nullptr)
+#define nullptr NULL
+#endif
+
 #include "FTDebouncer.h"
 
 FTDebouncer pinDebouncer(30);
@@ -7,7 +11,7 @@ void setup(){
 	pinDebouncer.addPin(2, HIGH, INPUT_PULLUP);
 	// NOTE: 
 	// INPUT_PULLDOWN is only supported by some microcontrollers
-	pinDebouncer.addPin(3, LOW, INPUT_PULLDOWN); 
+	//pinDebouncer.addPin(3, LOW, INPUT_PULLDOWN); 
 	pinDebouncer.addPin(4, HIGH);
 	pinDebouncer.addPin(5, LOW);
 	pinDebouncer.addPin(6, HIGH);
@@ -36,11 +40,11 @@ void loop(){
 	usElapsed = micros() - us;
 	Serial.println(usElapsed);
 }
-void pinActivated(uint8_t pinNr){
+void onPinActivated(uint8_t pinNr){
 	Serial.print("Pin activated: ");
 	Serial.println(pinNr);
 }
-void pinDeactivated(uint8_t pinNr){
+void onPinDeactivated(uint8_t pinNr){
 	Serial.print("Pin deactivated: ");
 	Serial.println(pinNr);
 }
