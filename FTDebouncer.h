@@ -10,22 +10,8 @@
 
 #include "Arduino.h"
 
-extern void pinActivated(uint8_t);
-extern void pinDeactivated(uint8_t);
 extern void onPinActivated(uint8_t);
 extern void onPinDeactivated(uint8_t);
-
-/*	NOT USED in order to be compatible with Arduino's INPUT_PULLUP/INPUT_PULLDOWN int parameters	*/
-enum class PinMode : uint8_t {
-	#ifdef INPUT_PULLUP
-	InputPullup = INPUT_PULLUP,
-	#endif
-	#ifdef INPUT_PULLDOWN
-	InputPullDown = INPUT_PULLDOWN,
-	#endif
-	Input = INPUT,
-	Output = OUTPUT,
-};
 
 struct DebounceItem {
 	uint8_t pinNumber;
