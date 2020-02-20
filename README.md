@@ -66,12 +66,12 @@ void setup(){}
 * Implement the following functions in your basic Arduino sketch (copy/paste these at the end of your code).
 
 ```c++
-void onPinActivated(uint8_t pinNR){
+void onPinActivated(int pinNR){
 	// do something according to the _pinNR that is triggered
 	// for instance:
 	// Serial.println(pinNR);
 }
-void onPinDeactivated(uint8_t pinNR){
+void onPinDeactivated(int pinNR){
 	// do something according to the _pinNR that is triggered
 	// for instance:
 	// Serial.println(pinNR);

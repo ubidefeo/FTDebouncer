@@ -11,8 +11,8 @@
 
 #include "Arduino.h"
 
-extern void onPinActivated(uint8_t);
-extern void onPinDeactivated(uint8_t);
+extern void onPinActivated(int);
+extern void onPinDeactivated(int);
 
 struct DebounceItem {
 	uint8_t pinNumber;

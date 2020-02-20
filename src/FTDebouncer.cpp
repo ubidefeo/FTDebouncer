@@ -97,9 +97,9 @@ void FTDebouncer::checkStateChange() {
 		if (debounceItem->previousDebouncedState != debounceItem->currentDebouncedState) {			
 
 			if (debounceItem->currentDebouncedState == debounceItem->restState) {
-				onPinDeactivated(debounceItem->pinNumber);
+				onPinDeactivated((int)debounceItem->pinNumber);
 			} else {
-				onPinActivated(debounceItem->pinNumber);				
+				onPinActivated((int)debounceItem->pinNumber);				
 			}
 		}
 		debounceItem->previousDebouncedState = debounceItem->currentDebouncedState;		

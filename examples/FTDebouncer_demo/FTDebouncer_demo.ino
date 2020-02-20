@@ -40,11 +40,11 @@ void loop(){
 	usElapsed = micros() - us;
 	Serial.println(usElapsed);
 }
-void onPinActivated(uint8_t pinNr){
+void onPinActivated(int pinNr){
 	Serial.print("Pin activated: ");
 	Serial.println(pinNr);
 }
-void onPinDeactivated(uint8_t pinNr){
+void onPinDeactivated(int pinNr){
 	Serial.print("Pin deactivated: ");
 	Serial.println(pinNr);
 }
