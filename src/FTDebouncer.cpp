@@ -89,15 +89,19 @@ void FTDebouncer::debouncePins() {
 	unsigned long currentMilliseconds = millis();
 
 	for(DebounceItem *debounceItem = _firstDebounceItem; debounceItem != nullptr; debounceItem = debounceItem->nextItem){
-		if (debounceItem->currentState != debounceItem->previousState) {
+		bool stateHasChangedSinceLastCheck = debounceItem->currentState != debounceItem->previousState;
+		
+		if (stateHasChangedSinceLastCheck) {
 			debounceItem->lastTimeChecked = currentMilliseconds;
 		}
-		if (currentMilliseconds - debounceItem->lastTimeChecked > _debounceDelay) {
-			if (debounceItem->previousState == debounceItem->currentState) {
-				debounceItem->lastTimeChecked = currentMilliseconds;
-				debounceItem->currentDebouncedState = debounceItem->currentState;
-			}
+
+		bool stateIsStable = currentMilliseconds - debounceItem->lastTimeChecked > _debounceDelay;
+		
+		if (stateIsStable && !stateHasChangedSinceLastCheck) {
+			debounceItem->lastTimeChecked = currentMilliseconds;
+			debounceItem->currentDebouncedState = debounceItem->currentState;			
 		}
+		
 		debounceItem->previousState = debounceItem->currentState;			
 	}
 }
