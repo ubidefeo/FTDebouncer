@@ -32,8 +32,7 @@ class FTDebouncer {
 private:
 	DebounceItem *_firstDebounceItem = nullptr, *_lastDebounceItem = nullptr;
 	const uint8_t _debounceDelay;
-	uint8_t _debouncedItemsCount = 0;
-	void readPins();
+	uint8_t _debouncedItemsCount = 0;	
 
 	/**
 	 * Handles the state machines for pin debouncing.
