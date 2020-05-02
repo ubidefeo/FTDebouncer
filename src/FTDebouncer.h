@@ -81,6 +81,11 @@ public:
 	void begin();
 
 	/**
+	 * Ends the debouncing and frees up the allocated memory.
+	 * */
+	void end();
+
+	/**
 	 * Tells the debouncer to debounce the pins' logic level and call the onPinDeactivated() / onPinActivated()
 	 * callbacks if it detects a state change for a pin.
 	 * */

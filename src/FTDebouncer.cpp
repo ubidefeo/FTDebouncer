@@ -18,6 +18,7 @@ FTDebouncer::FTDebouncer(uint16_t debounceDelay) : _debounceDelay(debounceDelay)
 }
 
 FTDebouncer::~FTDebouncer() {
+	this->end();
 }
 
 /*	METHODS	*/
@@ -76,6 +77,12 @@ void FTDebouncer::run() {
 
 void FTDebouncer::update(){
 	this->run();
+}
+
+void FTDebouncer::end(){
+	for(DebounceItem *debounceItem = _firstDebounceItem; debounceItem != nullptr; debounceItem = debounceItem->nextItem){
+		delete debounceItem;
+	}
 }
 
 void FTDebouncer::debouncePins() {
