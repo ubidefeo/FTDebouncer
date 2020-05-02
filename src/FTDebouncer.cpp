@@ -2,7 +2,7 @@
 * @Author: Ubi de Feo | Future Tailors
 * @Date:   2017-07-09 16:34:07
 * @Last Modified by: sbhklr
-* @Last Modified time: 2020-04-23 12:34:23
+* @Last Modified time: 2020-05-01 23:34:07
 **/
 
 
@@ -52,10 +52,6 @@ void FTDebouncer::setPinEnabled(uint8_t pinNumber, bool enabled){
 	}
 }
 void FTDebouncer::begin(){
-	this->init();
-}
-
-void FTDebouncer::init() {
 	unsigned long currentMilliseconds = millis();
 
 	for(DebounceItem *debounceItem = _firstDebounceItem; debounceItem != nullptr; debounceItem = debounceItem->nextItem){
@@ -63,20 +59,24 @@ void FTDebouncer::init() {
 		debounceItem->currentState = debounceItem->previousState = debounceItem->restState;
 		debounceItem->currentDebouncedState = debounceItem->previousDebouncedState = debounceItem->restState;
 		debounceItem->enabled = true;
-	}
+	}	
+}
+
+void FTDebouncer::init() {
+	this->begin();
 }
 
 void FTDebouncer::run() {
+	this->update();
+}
+
+void FTDebouncer::update(){
 	for(DebounceItem *debounceItem = _firstDebounceItem; debounceItem != nullptr; debounceItem = debounceItem->nextItem){
 		debounceItem->currentState = digitalRead(debounceItem->pinNumber);		
 	}
 
 	this->debouncePins();
-	this->checkStateChange();
-}
-
-void FTDebouncer::update(){
-	this->run();
+	this->checkStateChange();	
 }
 
 void FTDebouncer::end(){
