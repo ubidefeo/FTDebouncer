@@ -71,10 +71,6 @@ void FTDebouncer::run() {
 }
 
 void FTDebouncer::update(){
-	for(DebounceItem *debounceItem = _firstDebounceItem; debounceItem != nullptr; debounceItem = debounceItem->nextItem){
-		debounceItem->currentState = digitalRead(debounceItem->pinNumber);		
-	}
-
 	this->debouncePins();
 	this->checkStateChange();	
 }
@@ -89,6 +85,7 @@ void FTDebouncer::debouncePins() {
 	unsigned long currentMilliseconds = millis();
 
 	for(DebounceItem *debounceItem = _firstDebounceItem; debounceItem != nullptr; debounceItem = debounceItem->nextItem){
+		debounceItem->currentState = digitalRead(debounceItem->pinNumber);		
 		bool stateHasChangedSinceLastCheck = debounceItem->currentState != debounceItem->previousState;
 		
 		if (stateHasChangedSinceLastCheck) {
@@ -101,7 +98,7 @@ void FTDebouncer::debouncePins() {
 			debounceItem->lastTimeChecked = currentMilliseconds;
 			debounceItem->currentDebouncedState = debounceItem->currentState;			
 		}
-		
+
 		debounceItem->previousState = debounceItem->currentState;			
 	}
 }
