@@ -34,18 +34,67 @@ private:
 	const uint8_t _debounceDelay;
 	uint8_t _debouncedItemsCount = 0;
 	void readPins();
+
+	/**
+	 * Handles the state machines for pin debouncing.
+	 * */
 	void debouncePins();
+
+	/**
+	 * Checks the registered pins' for state changes and calls the onPinDeactivated() / onPinActivated()
+	 * callbacks if it detects a state change.
+	 * */
 	void checkStateChange();
 
 public:
 	FTDebouncer();
+
+	/**
+	 * FTDebouncer's constructor which allows to override the default debounce time.
+	 * @param debounceTime The amount of milliseconds for which a pin's logic level needs to be
+	 * stable to be considered debounced.
+	 * */
 	FTDebouncer(uint16_t debounceTime);
 	~FTDebouncer();
-	void run();	
-	void update();
-	void addPin(uint8_t pinNr, uint8_t restState, int pullMode = INPUT);
-	void setPinEnabled(uint8_t pinNr, bool enabled);
-	void init();
+
+	/**
+	 * Adds a pin to the debouncer. FTDebouncer will take care of setting up the pin by calling pinMode.
+	 * 
+	 * @param pinNumber The logical pin number on the board which shall be debounced.
+	 * @param restState The logical rest state of the pin when the input component is not active 
+	 * (e.g. when a connected button is not pressed). This value can be either HIGH or LOW.
+	 * @param pullMode The pull mode that shall be used for the connected input. 
+	 * Example: if a button is connected and INPUT_PULLUP is used no external resistor needs to be connected as the
+	 * board will use an internal resistor. In that case the rest state needs to be set to HIGH as the logical level 
+	 * of the input pin will be pulled high by default.
+	 * */
+	void addPin(uint8_t pinNumber, uint8_t restState, int pullMode = INPUT);
+
+	/**
+	 * Toggles the enabled state of one of the registered pins. 
+	 * When disabled no state change callbacks will be executed for the specified pin.
+	 * */
+	void setPinEnabled(uint8_t pinNumber, bool enabled);
+
+	/**
+	 * Prepares the debouncing by initializing timestamps and enabling debouncing for all registered pins.
+	 * */
 	void begin();
-	uint8_t getPinCount();
+
+	/**
+	 * Tells the debouncer to debounce the pins' logic level and call the onPinDeactivated() / onPinActivated()
+	 * callbacks if it detects a state change for a pin.
+	 * */
+	void update();
+
+	/**
+	 * Returns the amount of registered pins for debouncing.
+	 * */
+	uint8_t getPinCount();	
+
+	[[deprecated("Replaced by begin, which uses Arduino API compliant naming")]]
+	void init();
+
+	[[deprecated("Replaced by update, which uses Arduino API compliant naming")]]
+	void run();
 };
