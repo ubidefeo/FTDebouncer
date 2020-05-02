@@ -11,7 +11,16 @@
 
 #include "Arduino.h"
 
+/**
+ * Callback for when a pin is activated after debouncing.
+ * @param pinNumber The pin which was activated.
+ * */
 extern void onPinActivated(int);
+
+/**
+ * Callback for when a pin is deactivated after debouncing.
+ * @param pinNumber The pin which was deactivated.
+ * */
 extern void onPinDeactivated(int);
 
 struct DebounceItem {
@@ -31,7 +40,11 @@ class FTDebouncer {
 
 private:
 	DebounceItem *_firstDebounceItem = nullptr, *_lastDebounceItem = nullptr;
+
+	//The amount of milliseconds during which the debouncing happens
 	const uint8_t _debounceDelay;
+
+	//Stores the amount of registered pins for debouncing
 	uint8_t _debouncedItemsCount = 0;	
 
 	/**
@@ -81,7 +94,7 @@ public:
 	void begin();
 
 	/**
-	 * Ends the debouncing and frees up the allocated memory.
+	 * Ends the debouncing deregisters all pins and frees up the allocated memory.
 	 * */
 	void end();
 
