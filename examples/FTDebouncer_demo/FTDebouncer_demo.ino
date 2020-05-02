@@ -28,7 +28,7 @@ void setup(){
 	pinDebouncer.addPin(17, LOW);
 	pinDebouncer.addPin(18, HIGH);
 	pinDebouncer.addPin(19, LOW);
-	pinDebouncer.init();
+	pinDebouncer.begin();
 	Serial.println(sizeof(pinDebouncer));
 	Serial.println(pinDebouncer.getPinCount());
 	delay(5000);
@@ -36,7 +36,7 @@ void setup(){
 void loop(){
 	unsigned long us = micros();
 	unsigned long usElapsed;
-	pinDebouncer.run();
+	pinDebouncer.update();
 	usElapsed = micros() - us;
 	Serial.println(usElapsed);
 }
