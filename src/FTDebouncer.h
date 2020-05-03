@@ -9,7 +9,12 @@
 /*	Future Tailors' Debouncer Library 											*/
 /*	No more manually tracking milliseconds and writing spaghetti monsters		*/
 
+#ifndef FTDEBOUNCER_H
+#define FTDEBOUNCER_H
+
 #include "Arduino.h"
+
+typedef void (*CallbackFunction)(uint8_t);
 
 /**
  * Callback for when a pin is activated after debouncing.
@@ -40,6 +45,8 @@ class FTDebouncer {
 
 private:
 	DebounceItem *_firstDebounceItem = nullptr, *_lastDebounceItem = nullptr;
+	CallbackFunction _onPinActivated = nullptr;
+	CallbackFunction _onPinDeactivated = nullptr;
 
 	//The amount of milliseconds during which the debouncing happens
 	const uint8_t _debounceDelay;
@@ -68,6 +75,18 @@ public:
 	 * */
 	FTDebouncer(uint16_t debounceTime);
 	~FTDebouncer();
+
+	/**
+	 * Registers a custom callback for when a pin is detected as activated.
+	 * @param callback The callback function pointer or lambda that shall be executed as callback.
+	 * */
+	void setOnPinActivated(CallbackFunction callback);
+
+	/**
+	 * Registers a custom callback for when a pin is detected as deactivated.
+	 * @param callback The callback function pointer or lambda that shall be executed as callback.
+	 * */
+	void setOnPinDeactivated(CallbackFunction callback);
 
 	/**
 	 * Adds a pin to the debouncer. FTDebouncer will take care of setting up the pin by calling pinMode.
@@ -115,3 +134,5 @@ public:
 	[[deprecated("Replaced by update, which uses Arduino API compliant naming")]]
 	void run();
 };
+
+#endif
