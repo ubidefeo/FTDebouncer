@@ -14,7 +14,7 @@
 
 #include "Arduino.h"
 
-typedef void (*CallbackFunction)(uint8_t);
+typedef void (*CallbackFunction)(void);
 
 /**
  * Callback for when a pin is activated after debouncing.
@@ -38,15 +38,20 @@ struct DebounceItem {
 	uint32_t lastTimeChecked;
 	bool enabled;
 	uint8_t pullMode;
+	
+	//Registers a custom callback for when a pin is detected as activated.
+	CallbackFunction onPinActivated = nullptr;
+	
+	//Registers a custom callback for when a pin is detected as deactivated.
+	CallbackFunction onPinDeactivated = nullptr;
+
 	DebounceItem *nextItem = nullptr;
 };
 
 class FTDebouncer {
 
 private:
-	DebounceItem *_firstDebounceItem = nullptr, *_lastDebounceItem = nullptr;
-	CallbackFunction _onPinActivated = nullptr;
-	CallbackFunction _onPinDeactivated = nullptr;
+	DebounceItem *_firstDebounceItem = nullptr, *_lastDebounceItem = nullptr;	
 
 	//The amount of milliseconds during which the debouncing happens
 	const uint8_t _debounceDelay;
@@ -98,8 +103,10 @@ public:
 	 * Example: if a button is connected and INPUT_PULLUP is used no external resistor needs to be connected as the
 	 * board will use an internal resistor. In that case the rest state needs to be set to HIGH as the logical level 
 	 * of the input pin will be pulled high by default.
+	 * @param onPinActivated The callback function pointer or lambda that shall be executed as callback on pin activation.
+	 * @param onPinDeactivated The callback function pointer or lambda that shall be executed as callback on pin deactivation.
 	 * */
-	void addPin(uint8_t pinNumber, uint8_t restState, int pullMode = INPUT);
+	void addPin(uint8_t pinNumber, uint8_t restState, int pullMode = INPUT, CallbackFunction onPinActivated = nullptr, CallbackFunction onPinDeactivated = nullptr);
 
 	/**
 	 * Toggles the enabled state of one of the registered pins. 
