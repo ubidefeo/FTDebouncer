@@ -17,7 +17,7 @@ I'll soon make a Library JSON file to add to the IDE and submit it for review as
 For the time being when including it you'll have to go with
 ```#include "FTDebouncer.h"```
 
-#### Usage
+#### Basic Usage
 Pins to debounce must be pulled-up/down via a 10KOhm resistor to VCC or GND, or enabling internal pull-up/down (see notes in the example code).
 The HIGH or LOW state established by these resistors will be the "rest state" of your FTDebouncer's pins.
 	
@@ -77,6 +77,45 @@ void onPinDeactivated(int pinNumber){
 	// Serial.println(pinNumber);
 }
 ```
+
+### Advanced Usage
+If you're familiar with the concept of lambdas or closures, you can use them with FTDebouncer. The benefits are more cohesive code, better encapsulation and it avoids evaluation of the pin number using `if / else if` blocks or a `switch` statement.
+
+Include the library at the beginning of your Arduino sketch:
+```#include "FTDebouncer-Lambda.h"```
+or ```#include <FTDebouncer-Lambda.h>``` (depends on location of the class)
+
+The setup procedure remains the same as described above. Only the callbacks are different. Instead of implementing the global functions ```onPinActivated()``` and ```onPinDeactivated()``` you can use lambdas as shown in the following example.
+
+**Example:**
+```c++
+#include "FTDebouncer-Lambda.h"
+
+FTDebouncer pinDebouncer;
+
+void setup(){
+	Serial.begin(57600);
+
+	pinDebouncer.addPin(2, HIGH, INPUT_PULLUP, []() {
+		Serial.print("Pin activated: ");
+		Serial.println(2);
+	}, []() {
+		Serial.print("Pin deactivated: ");
+		Serial.println(2);
+	});
+	pinDebouncer.begin();	
+	delay(1000);
+}
+void loop(){	
+	pinDebouncer.update();	
+}
+```
+When accessing variables inside the lambda functions make sure to use the proper capturing specifiers:
+
+- `[]`captures no variables used in the lambda
+- `[&]` captures all variables used in the lambda by reference
+- `[=]` captures all variables used in the lambda by value
+
 	
 **Note**: This class can easily be reworked to function outside of the Arduino framework if you know how to handle time, Data Direction Registers, HAL etc.
 	
