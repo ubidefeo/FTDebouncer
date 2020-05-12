@@ -29,7 +29,9 @@ void setup(){
 	pinDebouncer.addPin(18, HIGH);
 	pinDebouncer.addPin(19, LOW);
 	pinDebouncer.begin();
+	Serial.print("Size of debouncer instance in bytes: ");	
 	Serial.println(sizeof(pinDebouncer));
+	Serial.print("Amount of debounced pins: ");
 	Serial.println(pinDebouncer.getPinCount());
 	delay(5000);
 }
@@ -38,6 +40,7 @@ void loop(){
 	unsigned long usElapsed;
 	pinDebouncer.update();
 	usElapsed = micros() - us;
+	Serial.print("Elapsed microseconds since last debounce: ");
 	Serial.println(usElapsed);
 }
 void onPinActivated(int pinNr){

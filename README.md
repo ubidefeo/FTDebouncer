@@ -22,7 +22,7 @@ Pins to debounce must be pulled-up/down via a 10KOhm resistor to VCC or GND, or 
 The HIGH or LOW state established by these resistors will be the "rest state" of your FTDebouncer's pins.
 	
 	
-* Include library at the beginning of your Arduino sketch
+* Include the library at the beginning of your Arduino sketch
 ```#include "FTDebouncer.h"```
 or
 ```#include <FTDebouncer.h>``` (depends on location of the class)
@@ -40,10 +40,10 @@ FTDebouncer pinDebouncer(30);
 * In your ```setup()``` function initiate each pin you want to debounce with
 ```pinDebouncer.addPin(<pin number>, <rest state>);``` (more detailed examples below).
 	
-* After all the pins have been added in the ```setup()``` function always initialise the object with
-```pinDebouncer.init();```
+* **After** all the pins have been added in the ```setup()``` function always initialise the object with
+```pinDebouncer.begin();```
 
-__example:__
+**Example:**
 ```c++
 void setup(){}
 	pinDebouncer.addPin(9, LOW); // external pull-down resistor
@@ -54,11 +54,11 @@ void setup(){}
 	// If your compiler throws an "undefined" then it's not supported.
 	pinDebouncer.addPin(7, HIGH, INPUT_PULLUP); // internal pull-up resistor (architecture dependent)
 	pinDebouncer.addPin(8, HIGH, INPUT_PULLDOWN); // internal pull-down resistor (architecture dependent)
-	pinDebouncer.init();
+	pinDebouncer.begin();
 }
 ```
 
-* At the beginning of your ```loop()``` function call this the library's ```update()``` method (mind that any ```delay()``` in your ```loop()``` will interfere with proper debouncing and state handling).
+* At the beginning of your ```loop()``` function call this the library's ```update()``` method (mind that any ```delay()``` in your ```loop()``` will interfere with proper debouncing and state handling):
 ```pinDebouncer.update();```
 
 * This will take care of doing the debouncing for you and simply call the ```onPinActivated()``` and ```onPinDeactivated()``` functions when the pin state change is steady.
@@ -66,17 +66,17 @@ void setup(){}
 * Implement the following functions in your basic Arduino sketch (copy/paste these at the end of your code).
 
 ```c++
-void onPinActivated(int pinNR){
+void onPinActivated(int pinNumber){
 	// do something according to the _pinNR that is triggered
 	// for instance:
-	// Serial.println(pinNR);
+	// Serial.println(pinNumber);
 }
-void onPinDeactivated(int pinNR){
+void onPinDeactivated(int pinNumber){
 	// do something according to the _pinNR that is triggered
 	// for instance:
-	// Serial.println(pinNR);
+	// Serial.println(pinNumber);
 }
 ```
 	
-__note__: This class can easily be reworked to function outside of the Arduino framework if you know how to handle time, Data Direction Registers, HAL etc.
+**Note**: This class can easily be reworked to function outside of the Arduino framework if you know how to handle time, Data Direction Registers, HAL etc.
 	
