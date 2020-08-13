@@ -8,23 +8,23 @@ FTDebouncer pinDebouncer(30);
 
 void setup(){
 	Serial.begin(57600);	
-	pinDebouncer.addPin(2, HIGH, INPUT, onPinActivated, onPinDeactivated);
-	pinDebouncer.addPin(3, LOW, INPUT, onPinActivated, onPinDeactivated);
-	pinDebouncer.addPin(4, HIGH, INPUT, onPinActivated, onPinDeactivated);
-	pinDebouncer.addPin(5, LOW, INPUT, onPinActivated, onPinDeactivated);
-	pinDebouncer.addPin(6, HIGH, INPUT_PULLUP, onPinActivated, onPinDeactivated);
+	pinDebouncer.addPin(2, HIGH, onPinActivated, onPinDeactivated);
+	pinDebouncer.addPin(3, LOW, onPinActivated, onPinDeactivated);
+	pinDebouncer.addPin(4, HIGH, onPinActivated, onPinDeactivated);
+	pinDebouncer.addPin(5, LOW, onPinActivated, onPinDeactivated);
+	pinDebouncer.addPin(6, HIGH, onPinActivated, onPinDeactivated, INPUT_PULLUP);
 
 	// NOTE: INPUT_PULLDOWN is only supported by some microcontrollers
-	//pinDebouncer.addPin(7, LOW, INPUT_PULLDOWN, onPinActivated, onPinDeactivated); 
+	//pinDebouncer.addPin(7, LOW, onPinActivated, onPinDeactivated, INPUT_PULLDOWN); 
 
 	//Use of anonymous inline callback function
-	pinDebouncer.addPin(8, HIGH, INPUT_PULLUP, [](int pinNumber) {
+	pinDebouncer.addPin(8, HIGH, [](int pinNumber) {
 		Serial.print("Pin activated: ");
 		Serial.println(pinNumber);
-	}, []() {
+	}, [](int pinNumber) {
 		Serial.print("Pin deactivated: ");
 		Serial.println(pinNumber);
-	});
+	}, INPUT_PULLUP);
 
 	pinDebouncer.begin();
 	Serial.print("Size of debouncer instance in bytes: ");	

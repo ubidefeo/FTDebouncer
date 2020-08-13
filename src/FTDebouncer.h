@@ -91,14 +91,14 @@ public:
 	 * @param pinNumber The logical pin number on the board which shall be debounced.
 	 * @param restState The logical rest state of the pin when the input component is not active 
 	 * (e.g. when a connected button is not pressed). This value can be either HIGH or LOW.
+	 * @param onPinActivated The callback function pointer or lambda that shall be executed as callback on pin activation.
+	 * @param onPinDeactivated The callback function pointer or lambda that shall be executed as callback on pin deactivation.
 	 * @param pullMode The pull mode that shall be used for the connected input. 
 	 * Example: if a button is connected and INPUT_PULLUP is used no external resistor needs to be connected as the
 	 * board will use an internal resistor. In that case the rest state needs to be set to HIGH as the logical level 
 	 * of the input pin will be pulled high by default.
-	 * @param onPinActivated The callback function pointer or lambda that shall be executed as callback on pin activation.
-	 * @param onPinDeactivated The callback function pointer or lambda that shall be executed as callback on pin deactivation.
 	 * */
-	void addPin(uint8_t pinNumber, uint8_t restState, int pullMode = INPUT, CallbackFunction onPinActivated = nullptr, CallbackFunction onPinDeactivated = nullptr);
+	void addPin(uint8_t pinNumber, uint8_t restState, CallbackFunction onPinActivated, CallbackFunction onPinDeactivated, int pullMode = INPUT);
 
 	/**
 	 * Toggles the enabled state of one of the registered pins. 

@@ -23,7 +23,7 @@ FTDebouncer::~FTDebouncer() {
 
 /*	METHODS	*/
 
-void FTDebouncer::addPin(uint8_t pinNumber, uint8_t restState, int pullMode, CallbackFunction onPinActivated, CallbackFunction onPinDeactivated) {
+void FTDebouncer::addPin(uint8_t pinNumber, uint8_t restState, CallbackFunction onPinActivated, CallbackFunction onPinDeactivated, int pullMode) {
 	DebounceItem *debounceItem = new DebounceItem();
 
 	debounceItem->pinNumber = pinNumber;
