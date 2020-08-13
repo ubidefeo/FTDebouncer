@@ -111,12 +111,10 @@ void FTDebouncer::checkStateChange() {
 		if(!debounceItem->enabled) continue;
 		if (debounceItem->previousDebouncedState != debounceItem->currentDebouncedState) {			
 
-			if (debounceItem->currentDebouncedState == debounceItem->restState) {				
-				onPinDeactivated(static_cast<int>(debounceItem->pinNumber));				
-				if(debounceItem->onPinDeactivated) debounceItem->onPinDeactivated();
-			} else {				
-				onPinActivated(static_cast<int>(debounceItem->pinNumber));								
-				if(debounceItem->onPinActivated) debounceItem->onPinActivated();
+			if (debounceItem->currentDebouncedState == debounceItem->restState) {								
+				if(debounceItem->onPinDeactivated) debounceItem->onPinDeactivated(static_cast<int>(debounceItem->pinNumber));
+			} else {
+				if(debounceItem->onPinActivated) debounceItem->onPinActivated(static_cast<int>(debounceItem->pinNumber));
 			}
 		}
 		debounceItem->previousDebouncedState = debounceItem->currentDebouncedState;		

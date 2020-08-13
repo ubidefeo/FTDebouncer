@@ -14,19 +14,11 @@
 
 #include "Arduino.h"
 
-typedef void (*CallbackFunction)(void);
+#if !defined(nullptr)
+#define nullptr NULL
+#endif
 
-/**
- * Callback for when a pin is activated after debouncing.
- * @param pinNumber The pin which was activated.
- * */
-extern void onPinActivated(int);
-
-/**
- * Callback for when a pin is deactivated after debouncing.
- * @param pinNumber The pin which was deactivated.
- * */
-extern void onPinDeactivated(int);
+typedef void (*CallbackFunction)(int);
 
 struct DebounceItem {
 	uint8_t pinNumber;
