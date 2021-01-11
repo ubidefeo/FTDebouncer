@@ -7,27 +7,25 @@
 FTDebouncer pinDebouncer(30);
 
 void setup(){
-	Serial.begin(57600);
-	pinDebouncer.addPin(2, HIGH, INPUT_PULLUP);
-	// NOTE: 
-	// INPUT_PULLDOWN is only supported by some microcontrollers
-	//pinDebouncer.addPin(3, LOW, INPUT_PULLDOWN); 
-	pinDebouncer.addPin(4, HIGH);
-	pinDebouncer.addPin(5, LOW);
-	pinDebouncer.addPin(6, HIGH);
-	pinDebouncer.addPin(7, LOW);
-	pinDebouncer.addPin(8, HIGH);
-	pinDebouncer.addPin(9, LOW);
-	pinDebouncer.addPin(10, HIGH);
-	pinDebouncer.addPin(11, LOW);
-	pinDebouncer.addPin(12, HIGH);
-	pinDebouncer.addPin(13, LOW);
-	pinDebouncer.addPin(14, HIGH);
-	pinDebouncer.addPin(15, LOW);
-	pinDebouncer.addPin(16, HIGH);
-	pinDebouncer.addPin(17, LOW);
-	pinDebouncer.addPin(18, HIGH);
-	pinDebouncer.addPin(19, LOW);
+	Serial.begin(57600);	
+	pinDebouncer.addPin(2, HIGH, onPinActivated, onPinDeactivated);
+	pinDebouncer.addPin(3, LOW, onPinActivated, onPinDeactivated);
+	pinDebouncer.addPin(4, HIGH, onPinActivated, onPinDeactivated);
+	pinDebouncer.addPin(5, LOW, onPinActivated, onPinDeactivated);
+	pinDebouncer.addPin(6, HIGH, onPinActivated, onPinDeactivated, INPUT_PULLUP);
+
+	// NOTE: INPUT_PULLDOWN is only supported by some microcontrollers
+	//pinDebouncer.addPin(7, LOW, onPinActivated, onPinDeactivated, INPUT_PULLDOWN); 
+
+	//Use of anonymous inline callback function
+	pinDebouncer.addPin(8, HIGH, [](int pinNumber) {
+		Serial.print("Pin activated: ");
+		Serial.println(pinNumber);
+	}, [](int pinNumber) {
+		Serial.print("Pin deactivated: ");
+		Serial.println(pinNumber);
+	}, INPUT_PULLUP);
+
 	pinDebouncer.begin();
 	Serial.print("Size of debouncer instance in bytes: ");	
 	Serial.println(sizeof(pinDebouncer));
@@ -38,16 +36,29 @@ void setup(){
 void loop(){
 	unsigned long us = micros();
 	unsigned long usElapsed;
+
 	pinDebouncer.update();
+
 	usElapsed = micros() - us;
 	Serial.print("Elapsed microseconds since last debounce: ");
 	Serial.println(usElapsed);
 }
-void onPinActivated(int pinNr){
+
+
+/**
+ * Callback for when a pin is activated after debouncing.
+ * @param pinNumber The pin which was activated.
+ * */
+void onPinActivated(int pinNumber){
 	Serial.print("Pin activated: ");
-	Serial.println(pinNr);
+	Serial.println(pinNumber);
 }
-void onPinDeactivated(int pinNr){
+
+/**
+ * Callback for when a pin is deactivated after debouncing.
+ * @param pinNumber The pin which was deactivated.
+ * */
+void onPinDeactivated(int pinNumber){
 	Serial.print("Pin deactivated: ");
-	Serial.println(pinNr);
+	Serial.println(pinNumber);
 }

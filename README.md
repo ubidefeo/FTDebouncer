@@ -46,14 +46,14 @@ FTDebouncer pinDebouncer(30);
 **Example:**
 ```c++
 void setup(){}
-	pinDebouncer.addPin(9, LOW); // external pull-down resistor
-	pinDebouncer.addPin(5, HIGH); // external pull-up resistor
-	pinDebouncer.addPin(3, LOW); // external pull-down resistor
+	pinDebouncer.addPin(9, LOW, onPinActivated, onPinDeactivated); // external pull-down resistor
+	pinDebouncer.addPin(5, HIGH, onPinActivated, onPinDeactivated); // external pull-up resistor
+	pinDebouncer.addPin(3, LOW, onPinActivated, onPinDeactivated); // external pull-down resistor
 	// although I favour external pull-up/down resistor, some like to use internal ones when the cpu allows it.
 	// most architectures support INPUT_PULLUP, some implement INPUT_PULLDOWN.
 	// If your compiler throws an "undefined" then it's not supported.
-	pinDebouncer.addPin(7, HIGH, INPUT_PULLUP); // internal pull-up resistor (architecture dependent)
-	pinDebouncer.addPin(8, HIGH, INPUT_PULLDOWN); // internal pull-down resistor (architecture dependent)
+	pinDebouncer.addPin(7, HIGH, onPinActivated, onPinDeactivated, INPUT_PULLUP); // internal pull-up resistor (architecture dependent)
+	pinDebouncer.addPin(8, HIGH, onPinActivated, onPinDeactivated, INPUT_PULLDOWN); // internal pull-down resistor (architecture dependent)
 	pinDebouncer.begin();
 }
 ```
@@ -61,22 +61,56 @@ void setup(){}
 * At the beginning of your ```loop()``` function call this the library's ```update()``` method (mind that any ```delay()``` in your ```loop()``` will interfere with proper debouncing and state handling):
 ```pinDebouncer.update();```
 
-* This will take care of doing the debouncing for you and simply call the ```onPinActivated()``` and ```onPinDeactivated()``` functions when the pin state change is steady.
+* This will take care of doing the debouncing for you and simply call the callback functions when the pin state change is steady. In the above example ```onPinActivated()``` and ```onPinDeactivated()``` were used as callback function names.
 
-* Implement the following functions in your basic Arduino sketch (copy/paste these at the end of your code).
+* Implement the callback functions according to what you've defined as function names for the callback parameters. If you like to use the same function names as in the example, you may copy the following code and past it at the end of your Arduino sketch:
 
 ```c++
 void onPinActivated(int pinNumber){
 	// do something according to the _pinNR that is triggered
 	// for instance:
-	// Serial.println(pinNumber);
+	Serial.println(pinNumber);
 }
 void onPinDeactivated(int pinNumber){
 	// do something according to the _pinNR that is triggered
 	// for instance:
-	// Serial.println(pinNumber);
+	Serial.println(pinNumber);
 }
 ```
+
+### Using Closures
+If you're familiar with the concept of closures, you can use them with FTDebouncer. The benefits are more cohesive code and it avoids evaluation of the pin number using `if / else if` blocks or a `switch` statement.
+
+The setup procedure remains the same as described above. Only the callbacks are different. Instead of implementing named functions like ```onPinActivated()``` / ```onPinDeactivated()``` you can use lambdas as shown in the following example:
+
+**Example:**
+```c++
+#include "FTDebouncer-Lambda.h"
+
+FTDebouncer pinDebouncer;
+
+void setup(){
+	Serial.begin(57600);
+
+	pinDebouncer.addPin(2, HIGH, INPUT_PULLUP, [](int pin) {
+		Serial.print("Pin activated: ");
+		Serial.println(2);
+	}, [](int pin) {
+		Serial.print("Pin deactivated: ");
+		Serial.println(2);
+	});
+	pinDebouncer.begin();	
+	delay(1000);
+}
+void loop(){	
+	pinDebouncer.update();	
+}
+```
+When accessing variables inside the lambda functions make sure to use the proper capturing specifiers:
+
+- `[]`captures no variables used in the lambda
+- `[&]` captures all variables used in the lambda by reference
+- `[=]` captures all variables used in the lambda by value
+
 	
 **Note**: This class can easily be reworked to function outside of the Arduino framework if you know how to handle time, Data Direction Registers, HAL etc.
-	

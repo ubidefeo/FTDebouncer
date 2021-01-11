@@ -23,11 +23,13 @@ FTDebouncer::~FTDebouncer() {
 
 /*	METHODS	*/
 
-void FTDebouncer::addPin(uint8_t pinNumber, uint8_t restState, int pullMode) {
+void FTDebouncer::addPin(uint8_t pinNumber, uint8_t restState, CallbackFunction onPinActivated, CallbackFunction onPinDeactivated, int pullMode) {
 	DebounceItem *debounceItem = new DebounceItem();
 
 	debounceItem->pinNumber = pinNumber;
 	debounceItem->restState = restState;
+	debounceItem->onPinActivated = onPinActivated;
+	debounceItem->onPinDeactivated = onPinDeactivated;
 
 	if (_firstDebounceItem == nullptr) {
 		_firstDebounceItem = debounceItem;
@@ -109,10 +111,10 @@ void FTDebouncer::checkStateChange() {
 		if(!debounceItem->enabled) continue;
 		if (debounceItem->previousDebouncedState != debounceItem->currentDebouncedState) {			
 
-			if (debounceItem->currentDebouncedState == debounceItem->restState) {
-				onPinDeactivated(static_cast<int>(debounceItem->pinNumber));
+			if (debounceItem->currentDebouncedState == debounceItem->restState) {								
+				if(debounceItem->onPinDeactivated) debounceItem->onPinDeactivated(static_cast<int>(debounceItem->pinNumber));
 			} else {
-				onPinActivated(static_cast<int>(debounceItem->pinNumber));				
+				if(debounceItem->onPinActivated) debounceItem->onPinActivated(static_cast<int>(debounceItem->pinNumber));
 			}
 		}
 		debounceItem->previousDebouncedState = debounceItem->currentDebouncedState;		
