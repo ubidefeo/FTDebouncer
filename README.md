@@ -92,7 +92,7 @@ FTDebouncer pinDebouncer;
 void setup(){
 	Serial.begin(57600);
 
-	pinDebouncer.addPin(2, HIGH, INPUT_PULLUP, [](int pin) {
+	pinDebouncer.addPin(2, HIGH, INPUT_PULLUP, [](int pin)) {
 		Serial.print("Pin activated: ");
 		Serial.println(2);
 	}, [](int pin) {
