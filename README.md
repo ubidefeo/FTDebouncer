@@ -11,11 +11,10 @@ Have a go at it and let me know what you think.
 
 ---
 #### Installation
-At the moment installation has to be done manually either on a global level (*libraries* folder in the main Arduino Sketch folder) or locally placed in the *libraries* folder inside your Sketch directory.
-I'll soon make a Library JSON file to add to the IDE and submit it for review as an endorsed library which can be found via Library Manager.
+You can install FTDebouncer through the Arduino IDE. You find the Library Manager at `Tools > Manage Libraries...`. Search for FTDebouncer and click the Install button.
 
-For the time being when including it you'll have to go with
-```#include "FTDebouncer.h"```
+Load the library with
+`#include <FTDebouncer.h>`
 
 #### Usage
 Pins to debounce must be pulled-up/down via a 10KOhm resistor to VCC or GND, or enabling internal pull-up/down (see notes in the example code).
@@ -23,9 +22,9 @@ The HIGH or LOW state established by these resistors will be the "rest state" of
 	
 	
 * Include the library at the beginning of your Arduino sketch
-```#include "FTDebouncer.h"```
-or
-```#include <FTDebouncer.h>``` (depends on location of the class)
+```
+#include <FTDebouncer.h>
+```
 
 * Instantiate an FTDebouncer object
 ```
@@ -37,11 +36,11 @@ This will initialise the debounce time to 40ms by default, but a different inter
 FTDebouncer pinDebouncer(30);
 ```
 
-* In your ```setup()``` function initiate each pin you want to debounce with
-```pinDebouncer.addPin(<pin number>, <rest state>);``` (more detailed examples below).
+* In your `setup()` function initiate each pin you want to debounce with
+`pinDebouncer.addPin(<pin number>, <rest state>);` (more detailed examples below).
 	
-* **After** all the pins have been added in the ```setup()``` function always initialise the object with
-```pinDebouncer.begin();```
+* **After** all the pins have been added in the `setup()` function always initialise the object with
+`pinDebouncer.begin();`
 
 **Example:**
 ```c++
@@ -58,10 +57,10 @@ void setup(){}
 }
 ```
 
-* At the beginning of your ```loop()``` function call this the library's ```update()``` method (mind that any ```delay()``` in your ```loop()``` will interfere with proper debouncing and state handling):
-```pinDebouncer.update();```
+* At the beginning of your `loop()` function call this the library's `update()` method (mind that any `delay()` in your `loop()` will interfere with proper debouncing and state handling):
+`pinDebouncer.update();`
 
-* This will take care of doing the debouncing for you and simply call the callback functions when the pin state change is steady. In the above example ```onPinActivated()``` and ```onPinDeactivated()``` were used as callback function names.
+* This will take care of doing the debouncing for you and simply call the callback functions when the pin state change is steady. In the above example `onPinActivated()` and `onPinDeactivated()` were used as callback function names.
 
 * Implement the callback functions according to what you've defined as function names for the callback parameters. If you like to use the same function names as in the example, you may copy the following code and past it at the end of your Arduino sketch:
 
@@ -81,7 +80,7 @@ void onPinDeactivated(int pinNumber){
 ### Using Closures
 If you're familiar with the concept of closures, you can use them with FTDebouncer. The benefits are more cohesive code and it avoids evaluation of the pin number using `if / else if` blocks or a `switch` statement.
 
-The setup procedure remains the same as described above. Only the callbacks are different. Instead of implementing named functions like ```onPinActivated()``` / ```onPinDeactivated()``` you can use lambdas as shown in the following example:
+The setup procedure remains the same as described above. Only the callbacks are different. Instead of implementing named functions like `onPinActivated()` / `onPinDeactivated()` you can use lambdas as shown in the following example:
 
 **Example:**
 ```c++
